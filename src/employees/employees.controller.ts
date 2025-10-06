@@ -13,7 +13,7 @@ import { EmployeesService } from './employees.service.js';
 import { Prisma } from '@prisma/client';
 import { Throttle, SkipThrottle } from '@nestjs/throttler';
 
-// @SkipThrottle()
+@SkipThrottle()
 @Controller('employees')
 export class EmployeesController {
   constructor(private readonly employeesService: EmployeesService) {}
