@@ -3,7 +3,7 @@ import { PrismaClient } from '@prisma/client';
 
 @Injectable()
 export class DatabaseService extends PrismaClient implements OnModuleInit {
-  private readonly MAX_RETRIES = 5;
+  private readonly MAX_RETRIES = 8;
   private readonly RETRY_DELAY_MS = 2000;
 
   async onModuleInit() {

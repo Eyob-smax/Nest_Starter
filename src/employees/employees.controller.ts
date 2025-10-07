@@ -12,11 +12,15 @@ import {
 import { EmployeesService } from './employees.service.js';
 import { Prisma } from '@prisma/client';
 import { Throttle, SkipThrottle } from '@nestjs/throttler';
+import { MyLoggerService } from '../my-logger/my-logger.service.js';
 
 @SkipThrottle()
 @Controller('employees')
 export class EmployeesController {
-  constructor(private readonly employeesService: EmployeesService) {}
+  constructor(
+    private readonly employeesService: EmployeesService,
+    private readonly logger: MyLoggerService,
+  ) {}
 
   @Post()
   create(@Body() createEmployeeDto: Prisma.employeeCreateInput) {
