@@ -40,11 +40,4 @@ import cookieParser from 'cookie-parser';
     },
   ],
 })
-export class AppModule implements NestModule {
-  configure(consumer: MiddlewareConsumer) {
-    consumer.apply(cookieParser(), MiddlewareService).forRoutes({
-      path: '/employees',
-      method: RequestMethod.ALL,
-    });
-  }
-}
+export class AppModule {}

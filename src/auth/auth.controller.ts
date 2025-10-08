@@ -16,7 +16,7 @@ export class AuthController {
     @Body() loginData: Partial<Prisma.usersCreateInput>,
     @Res({ passthrough: true }) res: Response,
   ) {
-    const result = await this.authService.login(loginData, res);
+    const result = await this.authService.login(loginData);
     if (result?.data?.token) {
       res.cookie('token', result.data.token, {
         httpOnly: true,
