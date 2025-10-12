@@ -10,7 +10,7 @@ import { DatabaseModule } from '../database/database.module.js';
 import { AuthMiddleware } from '../common/middleware/authMiddleware.service.js';
 
 @Module({
-  imports: [DatabaseModule],
+  imports: [],
   controllers: [EmployeesController],
   providers: [EmployeesService],
 })
