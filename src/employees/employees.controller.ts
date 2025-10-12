@@ -9,6 +9,8 @@ import {
   ParseIntPipe,
   Query,
   ValidationPipe,
+  ParseArrayPipe,
+  BadRequestException,
 } from '@nestjs/common';
 import { EmployeesService } from './employees.service.js';
 import { Throttle, SkipThrottle } from '@nestjs/throttler';
@@ -44,8 +46,14 @@ export class EmployeesController {
   @Patch(':id')
   update(
     @Param('id', ParseIntPipe) id: number,
-    @Body(ValidationPipe) updateEmployeeDto: updateEmployeeDto,
+    @Body(new ValidationPipe({ whitelist: true }))
+    updateEmployeeDto: updateEmployeeDto,
   ) {
+    if (Object.keys(updateEmployeeDto).length === 0) {
+      throw new BadRequestException(
+        'At least one field must be provided for update',
+      );
+    }
     return this.employeesService.update(id, updateEmployeeDto);
   }
 
