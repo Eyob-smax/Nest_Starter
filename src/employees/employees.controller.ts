@@ -11,9 +11,8 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { EmployeesService } from './employees.service.js';
-import { Prisma } from '@prisma/client';
 import { Throttle, SkipThrottle } from '@nestjs/throttler';
-import { MyLoggerService } from '../my-logger/my-logger.service.js';
+import { MyLoggerService } from '../common/my-logger/my-logger.service.js';
 import { CreateEmployeeDto } from './DTO/create-employee.dto.js';
 import { updateEmployeeDto } from './DTO/update-employee.dto.js';
 

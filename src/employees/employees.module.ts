@@ -7,7 +7,7 @@ import {
 import { EmployeesService } from './employees.service.js';
 import { EmployeesController } from './employees.controller.js';
 import { DatabaseModule } from '../database/database.module.js';
-import { AuthMiddleware } from '../middleware/authMiddleware.service.js';
+import { AuthMiddleware } from '../common/middleware/authMiddleware.service.js';
 
 @Module({
   imports: [DatabaseModule],

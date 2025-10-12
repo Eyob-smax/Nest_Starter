@@ -3,6 +3,7 @@ import { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 dotenv.config();
+
 @Injectable()
 export class AuthMiddleware implements NestMiddleware {
   private verifyToken(token: string) {

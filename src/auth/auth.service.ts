@@ -6,11 +6,8 @@ import {
 } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { DatabaseService } from '../database/database.service.js';
-import { PartialType } from '@nestjs/mapped-types';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import dotenv from 'dotenv';
-import type { Response } from 'express';
 
 @Injectable()
 export class AuthService {
@@ -30,7 +27,7 @@ export class AuthService {
         },
       });
       if (!user) {
-        throw new Error("Can't perform on the database!");
+        throw new HttpException("Can't perform on the database!", 500);
       }
       return { success: true, message: 'User created successfully' };
     } catch (err) {

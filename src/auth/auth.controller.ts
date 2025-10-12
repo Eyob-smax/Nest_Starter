@@ -1,4 +1,4 @@
-import { Body, Controller, HttpStatus, Post, Res } from '@nestjs/common';
+import { Body, Controller, Get, HttpStatus, Post, Res } from '@nestjs/common';
 import { AuthService } from './auth.service.js';
 import { Prisma } from '@prisma/client';
 import type { Response } from 'express';
@@ -26,5 +26,11 @@ export class AuthController {
       return { success: true, message: 'User logged in successfully!' };
     }
     return result;
+  }
+
+  @Get('/logout')
+  logout(@Res({ passthrough: true }) res: Response) {
+    res.clearCookie('token');
+    return { success: true, message: 'User logged out successfully!' };
   }
 }
