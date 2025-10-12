@@ -4,7 +4,7 @@ import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 dotenv.config();
 @Injectable()
-export class MiddlewareService implements NestMiddleware {
+export class AuthMiddleware implements NestMiddleware {
   private verifyToken(token: string) {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     if (!decoded) {

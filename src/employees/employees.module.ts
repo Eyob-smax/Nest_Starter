@@ -7,7 +7,7 @@ import {
 import { EmployeesService } from './employees.service.js';
 import { EmployeesController } from './employees.controller.js';
 import { DatabaseModule } from '../database/database.module.js';
-import { MiddlewareService } from '../middleware/middleware.service.js';
+import { AuthMiddleware } from '../middleware/authMiddleware.service.js';
 
 @Module({
   imports: [DatabaseModule],
@@ -16,7 +16,7 @@ import { MiddlewareService } from '../middleware/middleware.service.js';
 })
 export class EmployeesModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(MiddlewareService).forRoutes({
+    consumer.apply(AuthMiddleware).forRoutes({
       path: '/employees',
       method: RequestMethod.ALL,
     });

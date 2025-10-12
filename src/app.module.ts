@@ -11,10 +11,8 @@ import { DatabaseModule } from './database/database.module.js';
 import { EmployeesModule } from './employees/employees.module.js';
 import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
-import { MiddlewareService } from './middleware/middleware.service.js';
 import { MyLoggerModule } from './my-logger/my-logger.module.js';
 import { AuthModule } from './auth/auth.module.js';
-import cookieParser from 'cookie-parser';
 
 @Module({
   imports: [
