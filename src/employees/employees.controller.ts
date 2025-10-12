@@ -14,17 +14,13 @@ import {
 } from '@nestjs/common';
 import { EmployeesService } from './employees.service.js';
 import { Throttle, SkipThrottle } from '@nestjs/throttler';
-import { MyLoggerService } from '../common/my-logger/my-logger.service.js';
 import { CreateEmployeeDto } from './DTO/create-employee.dto.js';
 import { updateEmployeeDto } from './DTO/update-employee.dto.js';
 
 @SkipThrottle()
 @Controller('employees')
 export class EmployeesController {
-  constructor(
-    private readonly employeesService: EmployeesService,
-    private readonly logger: MyLoggerService,
-  ) {}
+  constructor(private readonly employeesService: EmployeesService) {}
 
   @Post()
   create(@Body(ValidationPipe) createEmployeeDto: CreateEmployeeDto) {
@@ -37,7 +33,7 @@ export class EmployeesController {
     return this.employeesService.findAll(role);
   }
 
-  @Throttle({ short: { ttl: 60000, limit: 10 } })
+  @Throttle({ short: { ttl: 60000, limit: 1 } })
   @Get(':id')
   findOne(@Param('id', ParseIntPipe) id: number) {
     return this.employeesService.findOne(id);
