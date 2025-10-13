@@ -9,8 +9,8 @@ import {
   ParseIntPipe,
   Query,
   ValidationPipe,
-  ParseArrayPipe,
   BadRequestException,
+  MethodNotAllowedException,
 } from '@nestjs/common';
 import { EmployeesService } from './employees.service.js';
 import { CreateEmployeeDto } from './DTO/create-employee.dto.js';
@@ -27,6 +27,7 @@ export class EmployeesController {
 
   @Get()
   findAll(@Query('role') role?: 'INTERN' | 'ADMIN' | 'ENGINEER') {
+    throw new MethodNotAllowedException('hey');
     return this.employeesService.findAll(role);
   }
 
