@@ -1,4 +1,9 @@
-import { Injectable, NestMiddleware, Scope } from '@nestjs/common';
+import {
+  Injectable,
+  MethodNotAllowedException,
+  NestMiddleware,
+  Scope,
+} from '@nestjs/common';
 import { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
@@ -15,7 +20,7 @@ export class AuthMiddleware implements NestMiddleware {
   }
 
   use(req: Request, res: Response, next: () => void) {
-    const token = req.cookies?.token;
+    const token = req.cookies?.['token'];
     if (!token) {
       return res.json({ success: false, message: 'No token found' });
     }

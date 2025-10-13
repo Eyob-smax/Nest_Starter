@@ -9,6 +9,7 @@ import { EmployeesController } from './employees.controller.js';
 import { AuthMiddleware } from '../common/middleware/authMiddleware.service.js';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
+import CustomExceptionModule from '../common/exceptions/customException.module.js';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { APP_GUARD } from '@nestjs/core';
         limit: 10,
       },
     ]),
+    CustomExceptionModule,
   ],
   controllers: [EmployeesController],
   providers: [
