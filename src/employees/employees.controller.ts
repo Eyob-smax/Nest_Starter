@@ -11,17 +11,21 @@ import {
   ValidationPipe,
   BadRequestException,
   MethodNotAllowedException,
+  UsePipes,
 } from '@nestjs/common';
 import { EmployeesService } from './employees.service.js';
 import { CreateEmployeeDto } from './DTO/create-employee.dto.js';
 import { updateEmployeeDto } from './DTO/update-employee.dto.js';
+import { ZodValidationPipe } from '../common/pipes/zodValidation.pipe.js';
+import { createCatSchema } from '../common/pipes/zod.schema.js';
 
 @Controller('employees')
 export class EmployeesController {
   constructor(private readonly employeesService: EmployeesService) {}
 
   @Post()
-  create(@Body(ValidationPipe) createEmployeeDto: CreateEmployeeDto) {
+  @UsePipes(new ZodValidationPipe(createCatSchema))
+  create(@Body() createEmployeeDto: CreateEmployeeDto) {
     return this.employeesService.create(createEmployeeDto);
   }
 
