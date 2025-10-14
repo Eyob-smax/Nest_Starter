@@ -31,7 +31,6 @@ export class EmployeesController {
 
   @Get()
   findAll(@Query('role') role?: 'INTERN' | 'ADMIN' | 'ENGINEER') {
-    throw new MethodNotAllowedException('hey');
     return this.employeesService.findAll(role);
   }
 
