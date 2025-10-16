@@ -1,7 +1,9 @@
 import {
+  BadRequestException,
   Body,
   HttpException,
   Injectable,
+  InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
@@ -17,7 +19,7 @@ export class AuthService {
     try {
       const { username, password, email } = registerData;
       if (!username || !password || !email) {
-        return { success: false, Message: 'Incomplete credentials' };
+        throw new BadRequestException('Incomplete credentials');
       }
       const user = await this.databaseService.users.create({
         data: {
@@ -29,19 +31,18 @@ export class AuthService {
       if (!user) {
         throw new HttpException("Can't perform on the database!", 500);
       }
-      return { success: true, message: 'User created successfully' };
+      return 'User created successfully';
     } catch (err) {
-      return {
-        success: false,
-        message: `Something went wrong: ${err.message}`,
-      };
+      throw new InternalServerErrorException(
+        'Something went wrong ' + err.message,
+      );
     }
   }
 
   async login(@Body() loginData: Partial<Prisma.usersCreateInput>) {
     const { password, email } = loginData;
     if (!password || !email) {
-      return { success: false, message: 'Password or email required!' };
+      throw new BadRequestException('Email or password missing');
     }
     const user = await this.databaseService.users.findUnique({
       where: { email },
@@ -52,7 +53,6 @@ export class AuthService {
     const token = jwt.sign({ email }, process.env.JWT_SECRET);
 
     return {
-      success: true,
       message: 'Logged in successfully!',
       data: { token },
     };

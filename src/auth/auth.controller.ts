@@ -1,7 +1,16 @@
-import { Body, Controller, Get, HttpStatus, Post, Res } from '@nestjs/common';
+import {
+  BadRequestException,
+  Body,
+  Controller,
+  Get,
+  NotFoundException,
+  Post,
+  Req,
+  Res,
+} from '@nestjs/common';
 import { AuthService } from './auth.service.js';
 import { Prisma } from '@prisma/client';
-import type { Response } from 'express';
+import type { Response, Request } from 'express';
 
 @Controller('/auth')
 export class AuthController {
@@ -23,14 +32,17 @@ export class AuthController {
         secure: false,
         maxAge: 1000 * 60 * 60 * 24 * 7,
       });
-      return { success: true, message: 'User logged in successfully!' };
+      return { message: 'User logged in successfully!' };
     }
     return result;
   }
 
   @Get('/logout')
-  logout(@Res({ passthrough: true }) res: Response) {
+  logout(@Res({ passthrough: true }) res: Response, @Req() req: Request) {
+    if (!req.cookies?.token) {
+      throw new NotFoundException('User Already logged out');
+    }
     res.clearCookie('token');
-    return { success: true, message: 'User logged out successfully!' };
+    return { message: 'User logged out successfully!' };
   }
 }

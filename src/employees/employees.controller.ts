@@ -12,14 +12,20 @@ import {
   BadRequestException,
   MethodNotAllowedException,
   UsePipes,
+  UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 import { EmployeesService } from './employees.service.js';
 import { CreateEmployeeDto } from './DTO/create-employee.dto.js';
 import { updateEmployeeDto } from './DTO/update-employee.dto.js';
 import { ZodValidationPipe } from '../common/pipes/zodValidation.pipe.js';
 import { createCatSchema } from '../common/pipes/zod.schema.js';
+import { AuthGuard } from './guard/auth.guard.js';
+import { CacheInterceptor } from './interceptors/cache.interceptor.js';
 
 @Controller('employees')
+@UseInterceptors(CacheInterceptor)
+@UseGuards(AuthGuard)
 export class EmployeesController {
   constructor(private readonly employeesService: EmployeesService) {}
 
@@ -42,7 +48,7 @@ export class EmployeesController {
   @Patch(':id')
   update(
     @Param('id', ParseIntPipe) id: number,
-    @Body(new ValidationPipe({ whitelist: true }))
+    @Body()
     updateEmployeeDto: updateEmployeeDto,
   ) {
     if (Object.keys(updateEmployeeDto).length === 0) {

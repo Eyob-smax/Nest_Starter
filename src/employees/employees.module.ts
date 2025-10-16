@@ -1,16 +1,11 @@
-import {
-  MiddlewareConsumer,
-  Module,
-  NestModule,
-  RequestMethod,
-} from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { EmployeesService } from './employees.service.js';
 import { EmployeesController } from './employees.controller.js';
-import { AuthMiddleware } from '../common/middleware/authMiddleware.service.js';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { APP_FILTER, APP_GUARD } from '@nestjs/core';
 import CustomExceptionModule from '../common/exceptions/customException.module.js';
 import HttpExceptionFilter from '../common/filters/HttpExceptionFilter.filter.js';
+import { AuthGuard } from './guard/auth.guard.js';
 
 @Module({
   imports: [
@@ -36,11 +31,4 @@ import HttpExceptionFilter from '../common/filters/HttpExceptionFilter.filter.js
     },
   ],
 })
-export class EmployeesModule {
-  configure(consumer: MiddlewareConsumer) {
-    consumer.apply(AuthMiddleware).forRoutes({
-      path: '/employees',
-      method: RequestMethod.ALL,
-    });
-  }
-}
+export class EmployeesModule {}

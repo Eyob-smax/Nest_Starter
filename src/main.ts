@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module.js';
 import { MyLoggerService } from './common/my-logger/my-logger.service.js';
 import cookieParser from 'cookie-parser';
+import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
@@ -10,6 +11,12 @@ async function bootstrap() {
   });
   app.use(cookieParser());
   app.enableCors();
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,
+      forbidUnknownValues: true,
+    }),
+  );
   await app.listen(8000);
 }
 await bootstrap();

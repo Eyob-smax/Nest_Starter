@@ -16,11 +16,12 @@ export default class HttpExceptionFilter implements ExceptionFilter {
     const request = ctx.getRequest<Request>();
 
     response.status(status).json({
-      error: exception.name,
-      message: exception.message,
-      statusCode: status,
-      timeStamp: new Date().toDateString(),
-      where: `This error happend in ${request.path} on the method ${request.method}`,
+      success: false,
+      err: {
+        errorName: exception.name,
+        message: exception.message,
+        timeStamp: new Date().toTimeString(),
+      },
     });
   }
 }
