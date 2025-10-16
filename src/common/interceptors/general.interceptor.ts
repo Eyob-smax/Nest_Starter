@@ -4,7 +4,6 @@ import {
   ExecutionContext,
   CallHandler,
 } from '@nestjs/common';
-import { Request, Response } from 'express';
 import { catchError, map, Observable, tap, throwError } from 'rxjs';
 
 @Injectable()

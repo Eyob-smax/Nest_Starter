@@ -5,8 +5,9 @@ import {
   NestInterceptor,
 } from '@nestjs/common';
 import type { RedisClientType } from '@redis/client';
+import { subscribe } from 'diagnostics_channel';
 import { Request } from 'express';
-import { Observable, from, of, switchMap, tap } from 'rxjs';
+import { Observable, from, of, switchMap, tap, throwError } from 'rxjs';
 
 export class CacheInterceptor implements NestInterceptor {
   constructor(
@@ -21,16 +22,21 @@ export class CacheInterceptor implements NestInterceptor {
     const key = `${request.method}:${request.url}`;
 
     return new Observable((subscriber) => {
-      this.redisClient.get(key).then((cached: null | string) => {
-        if (cached) {
-          subscriber.next(JSON.parse(cached));
+      this.redisClient.get(key).then((catchedData) => {
+        if (catchedData) {
+          console.log('Data fetched from the cache!');
+          subscriber.next(JSON.parse(catchedData as string));
           subscriber.complete();
         } else {
           next.handle().subscribe({
             next: async (data) => {
               subscriber.next(data);
               subscriber.complete();
-              await this.redisClient.setEx(key, 60, JSON.stringify(data));
+              await this.redisClient.setEx(
+                key,
+                3600 * 15,
+                JSON.stringify(data),
+              );
             },
             error: (err) => subscriber.error(err),
           });
