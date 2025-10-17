@@ -3,7 +3,6 @@ import {
   BadRequestException,
   NotFoundException,
   InternalServerErrorException,
-  Scope,
 } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { DatabaseService } from '../database/database.service.js';

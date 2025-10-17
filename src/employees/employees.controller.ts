@@ -18,10 +18,13 @@ import { CreateEmployeeDto } from './DTO/create-employee.dto.js';
 import { updateEmployeeDto } from './DTO/update-employee.dto.js';
 import { ZodValidationPipe } from '../common/pipes/zodValidation.pipe.js';
 import { createEmployeeSchema } from '../common/pipes/zod.schema.js';
-import { AuthGuard } from './guard/auth.guard.js';
 import { CacheInterceptor } from './interceptors/cache.interceptor.js';
+import { RolesGuard } from './guard/roles.guard.js';
+import { Roles } from './decorators/roles.decorator.js';
+import { AuthGuard } from './guard/auth.guard.js';
 
 @Controller('employees')
+@UseGuards(AuthGuard)
 @UseInterceptors(CacheInterceptor)
 export class EmployeesController {
   constructor(private readonly employeesService: EmployeesService) {}
@@ -33,6 +36,8 @@ export class EmployeesController {
   }
 
   @Get()
+  @Roles('admin')
+  @UseGuards(RolesGuard)
   findAll(@Query('role') role?: 'INTERN' | 'ADMIN' | 'ENGINEER') {
     return this.employeesService.findAll(role);
   }

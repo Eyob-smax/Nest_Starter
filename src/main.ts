@@ -1,4 +1,4 @@
-import { NestFactory } from '@nestjs/core';
+import { LazyModuleLoader, NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module.js';
 import { MyLoggerService } from './common/my-logger/my-logger.service.js';
 import cookieParser from 'cookie-parser';

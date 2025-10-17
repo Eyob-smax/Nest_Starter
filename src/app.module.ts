@@ -10,6 +10,7 @@ import { AuthModule } from './auth/auth.module.js';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { GeneralInterceptor } from './common/interceptors/general.interceptor.js';
 import { RedisModule } from './redis/redis.module.js';
+import { UtilsModule } from './employees/utils/general.module.js';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { RedisModule } from './redis/redis.module.js';
     EmployeesModule,
     MyLoggerModule,
     RedisModule.register(),
+    UtilsModule,
   ],
   controllers: [AppController],
   providers: [

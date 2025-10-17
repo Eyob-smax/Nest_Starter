@@ -30,7 +30,7 @@ export class AuthController {
       res.cookie('token', result.data.token, {
         httpOnly: true,
         secure: false,
-        maxAge: 1000 * 60 * 60 * 24 * 7,
+        maxAge: 1000 * 60,
       });
       return { message: 'User logged in successfully!' };
     }

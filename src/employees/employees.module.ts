@@ -6,6 +6,7 @@ import { APP_FILTER, APP_GUARD } from '@nestjs/core';
 import CustomExceptionModule from '../common/exceptions/customException.module.js';
 import HttpExceptionFilter from '../common/filters/HttpExceptionFilter.filter.js';
 import { AuthGuard } from './guard/auth.guard.js';
+import { Utils } from './utils/general.utils.js';
 
 @Module({
   imports: [
@@ -13,7 +14,7 @@ import { AuthGuard } from './guard/auth.guard.js';
       {
         name: 'short',
         ttl: 60000,
-        limit: 10,
+        limit: 5,
       },
     ]),
     CustomExceptionModule,
@@ -24,10 +25,6 @@ import { AuthGuard } from './guard/auth.guard.js';
     {
       provide: APP_GUARD,
       useClass: ThrottlerGuard,
-    },
-    {
-      provide: APP_GUARD,
-      useClass: AuthGuard,
     },
     {
       provide: APP_FILTER,

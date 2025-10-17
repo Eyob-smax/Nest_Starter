@@ -50,7 +50,13 @@ export class AuthService {
     if (!user?.email) {
       throw new NotFoundException('User not found');
     }
-    const token = jwt.sign({ email }, process.env.JWT_SECRET);
+    const token = jwt.sign(
+      { email, isAdmin: email === 'eyobsmax@gmail.com' ? true : false },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: 60 * 1000,
+      },
+    );
 
     return {
       message: 'Logged in successfully!',
