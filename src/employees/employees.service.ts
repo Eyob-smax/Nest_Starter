@@ -3,6 +3,7 @@ import {
   BadRequestException,
   NotFoundException,
   InternalServerErrorException,
+  Scope,
 } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { DatabaseService } from '../database/database.service.js';
@@ -10,7 +11,6 @@ import { DatabaseService } from '../database/database.service.js';
 @Injectable()
 export class EmployeesService {
   constructor(private readonly databaseService: DatabaseService) {}
-
   async create(createEmployeeDto: Prisma.employeeCreateInput) {
     try {
       if (!createEmployeeDto.name || !createEmployeeDto.role) {
@@ -24,7 +24,15 @@ export class EmployeesService {
       return employee;
     } catch (error) {
       if (error instanceof BadRequestException) throw error;
-      throw new InternalServerErrorException('Failed to create employee.');
+      if (error.code === 'P2002') {
+        throw new BadRequestException(
+          `Unique constraint compromised for ${error.meta.target[0]} field`,
+        );
+      }
+
+      throw new InternalServerErrorException(
+        'Failed to create employee.' + error.message,
+      );
     }
   }
 

@@ -8,9 +8,7 @@ import {
   Delete,
   ParseIntPipe,
   Query,
-  ValidationPipe,
   BadRequestException,
-  MethodNotAllowedException,
   UsePipes,
   UseGuards,
   UseInterceptors,
@@ -19,18 +17,17 @@ import { EmployeesService } from './employees.service.js';
 import { CreateEmployeeDto } from './DTO/create-employee.dto.js';
 import { updateEmployeeDto } from './DTO/update-employee.dto.js';
 import { ZodValidationPipe } from '../common/pipes/zodValidation.pipe.js';
-import { createCatSchema } from '../common/pipes/zod.schema.js';
+import { createEmployeeSchema } from '../common/pipes/zod.schema.js';
 import { AuthGuard } from './guard/auth.guard.js';
 import { CacheInterceptor } from './interceptors/cache.interceptor.js';
 
 @Controller('employees')
 @UseInterceptors(CacheInterceptor)
-@UseGuards(AuthGuard)
 export class EmployeesController {
   constructor(private readonly employeesService: EmployeesService) {}
 
   @Post()
-  @UsePipes(new ZodValidationPipe(createCatSchema))
+  @UsePipes(new ZodValidationPipe(createEmployeeSchema))
   create(@Body() createEmployeeDto: CreateEmployeeDto) {
     return this.employeesService.create(createEmployeeDto);
   }

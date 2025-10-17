@@ -5,6 +5,7 @@ import {
   NestInterceptor,
 } from '@nestjs/common';
 import type { RedisClientType } from '@redis/client';
+import { Request } from 'express';
 import { Observable } from 'rxjs';
 
 export class CacheInterceptor implements NestInterceptor {
@@ -16,12 +17,12 @@ export class CacheInterceptor implements NestInterceptor {
     context: ExecutionContext,
     next: CallHandler<any>,
   ): Observable<any> {
-    const request = context.switchToHttp().getRequest();
+    const request = context.switchToHttp().getRequest<Request>();
     const key = `${request.method}:${request.url}`;
 
     return new Observable((subscriber) => {
       this.redisClient.get(key).then((catchedData) => {
-        if (catchedData) {
+        if (catchedData && request.method === 'GET') {
           subscriber.next({
             data: JSON.parse(catchedData as string),
             cached: true,

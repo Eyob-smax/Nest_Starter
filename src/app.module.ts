@@ -18,7 +18,7 @@ import { RedisModule } from './redis/redis.module.js';
     AuthModule,
     EmployeesModule,
     MyLoggerModule,
-    RedisModule,
+    RedisModule.register(),
   ],
   controllers: [AppController],
   providers: [

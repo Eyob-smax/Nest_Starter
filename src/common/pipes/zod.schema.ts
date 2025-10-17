@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const createCatSchema = z
+export const createEmployeeSchema = z
   .object({
     name: z.string(),
     email: z.email(),
@@ -8,4 +8,4 @@ export const createCatSchema = z
   })
   .required();
 
-export type CreateCatDto = z.infer<typeof createCatSchema>;
+export type createEmployeeDto = z.infer<typeof createEmployeeSchema>;
