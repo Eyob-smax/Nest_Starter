@@ -5,8 +5,6 @@ import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { APP_FILTER, APP_GUARD } from '@nestjs/core';
 import CustomExceptionModule from '../common/exceptions/customException.module.js';
 import HttpExceptionFilter from '../common/filters/HttpExceptionFilter.filter.js';
-import { AuthGuard } from './guard/auth.guard.js';
-import { Utils } from './utils/general.utils.js';
 
 @Module({
   imports: [

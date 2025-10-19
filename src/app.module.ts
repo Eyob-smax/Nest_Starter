@@ -11,6 +11,8 @@ import { APP_INTERCEPTOR } from '@nestjs/core';
 import { GeneralInterceptor } from './common/interceptors/general.interceptor.js';
 import { RedisModule } from './redis/redis.module.js';
 import { UtilsModule } from './employees/utils/general.module.js';
+import { AiModule } from './ai/ai.module.js';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
@@ -21,6 +23,11 @@ import { UtilsModule } from './employees/utils/general.module.js';
     MyLoggerModule,
     RedisModule.register(),
     UtilsModule,
+    AiModule,
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: '.env',
+    }),
   ],
   controllers: [AppController],
   providers: [
